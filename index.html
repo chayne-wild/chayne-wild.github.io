@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chayne Wild - Personal Website</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #333;
+            background-color: #fafafa;
+            line-height: 1.6;
+        }
+        a {
+            color: #2563eb;
+            text-decoration: none;
+            transition: color 0.2s ease-in-out;
+        }
+        a:hover {
+            color: #1d4ed8;
+            text-decoration: underline;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            margin-top: 2rem;
+            color: #111827;
+        }
+        .pub-title {
+            font-weight: 600;
+            color: #1f2937;
+        }
+        .pub-authors {
+            color: #4b5563;
+        }
+        .pub-journal {
+            font-style: italic;
+            color: #374151;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-blue-200 selection:text-blue-900">
+
+    <div class="max-w-5xl mx-auto px-6 py-12 md:py-20 flex flex-col md:flex-row gap-12">
+        
+        <!-- Sidebar / Profile -->
+        <aside class="w-full md:w-1/3 flex flex-col items-center md:items-start text-center md:text-left shrink-0">
+            <!-- Profile Image Placeholder -->
+            <div class="w-48 h-48 rounded-full bg-gray-300 overflow-hidden mb-6 border-4 border-white shadow-lg">
+                <img src="https://via.placeholder.com/400x400.png?text=Profile+Photo" alt="Profile Photo" class="w-full h-full object-cover">
+            </div>
+
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Chayne Wild</h1>
+            <p class="text-lg text-gray-600 mb-4">Ph.D. Candidate in ASPECT<br>Virginia Tech</p>
+
+            <div class="w-full h-px bg-gray-200 my-4"></div>
+
+            <!-- Contact Info -->
+            <div class="text-sm text-gray-600 space-y-2 mb-6 w-full">
+                <p><i class="fa-solid fa-envelope w-5 text-center text-gray-400"></i> <a href="mailto:chayne.wild@gmail.com">chayne.wild@gmail.com</a></p>
+                <p><i class="fa-solid fa-envelope w-5 text-center text-gray-400"></i> <a href="mailto:chayne@vt.edu">chayne@vt.edu</a></p>
+                <p><i class="fa-solid fa-location-dot w-5 text-center text-gray-400"></i> Blacksburg, VA / Moscow, ID</p>
+            </div>
+
+            <!-- Social Links -->
+            <div class="flex gap-4 mb-8">
+                <a href="#" class="text-gray-500 hover:text-gray-900 text-xl" title="CV">
+                    <i class="fa-solid fa-file-pdf"></i>
+                </a>
+                <a href="#" class="text-gray-500 hover:text-gray-900 text-xl" title="Google Scholar">
+                    <i class="fa-brands fa-google"></i>
+                </a>
+                <a href="#" class="text-gray-500 hover:text-gray-900 text-xl" title="GitHub">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+                <a href="#" class="text-gray-500 hover:text-gray-900 text-xl" title="Twitter / X">
+                    <i class="fa-brands fa-x-twitter"></i>
+                </a>
+                <a href="#" class="text-gray-500 hover:text-gray-900 text-xl" title="LinkedIn">
+                    <i class="fa-brands fa-linkedin"></i>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="w-full md:w-2/3">
+            
+            <!-- About Section -->
+            <section id="about">
+                <p class="mb-4 text-gray-700">
+                    Welcome! I am a Ph.D. Candidate in the Alliance for Social, Political, Ethical, and Cultural Thought (ASPECT) at Virginia Tech.
+                </p>
+                <p class="mb-4 text-gray-700">
+                    My research focuses on Carceral Studies, Decolonial Theory, Critical Sociology, and Social Thought. Specifically, I examine the "carceral digital turn" and prisoner resistance using the American Prison Writing Archive (APWA). Drawing on the works of Hall, Fanon, and Marx, my work explores the intersection of racial capitalism, surveillance, and epistemic authority.
+                </p>
+            </section>
+
+            <!-- News Section (Optional, good for academic sites) -->
+            <section id="news" class="mt-8">
+                <h2 class="section-title">Recent & Upcoming</h2>
+                <ul class="list-none space-y-3 text-sm text-gray-700">
+                    <li class="flex gap-4">
+                        <span class="font-semibold text-gray-500 whitespace-nowrap">May 2026</span>
+                        <span>Target defense date for Ph.D. dissertation.</span>
+                    </li>
+                    <li class="flex gap-4">
+                        <span class="font-semibold text-gray-500 whitespace-nowrap">Jan 2026</span>
+                        <span>Book review submitted to <em>ACJS Today</em>.</span>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Publications Section -->
+            <section id="publications">
+                <h2 class="section-title">Book Reviews</h2>
+                
+                <div class="space-y-6">
+                    <!-- Publication 1 -->
+                    <div>
+                        <div class="pub-title">Review of <em>Inside Knowledge: Incarcerated People on the Failures of the American Prison</em></div>
+                        <div class="pub-authors">Submitted to <span class="pub-journal">ACJS Today</span>, January 2026.</div>
+                    </div>
+
+                    <!-- Publication 2 -->
+                    <div>
+                        <div class="pub-title">Review of <em>Plastic Matter</em></div>
+                        <div class="pub-authors"><span class="pub-journal">Lateral: Journal of the Cultural Studies Association</span>, Spring 2024.</div>
+                        <div class="mt-1 space-x-3 text-sm">
+                            <a href="#"><i class="fa-solid fa-link"></i> Link</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Working Papers Section -->
+            <section id="working-papers">
+                <h2 class="section-title">Manuscripts in Preparation</h2>
+                
+                <div class="space-y-6">
+                    <!-- Working Paper 1 -->
+                    <div>
+                        <div class="pub-title">"Beastly Politics: The Zoopolitical Dimensions of Criminalization and Social Death"</div>
+                        <div class="pub-authors">Prepared for <span class="pub-journal">Theoretical Criminology</span>.</div>
+                    </div>
+
+                    <!-- Working Paper 2 -->
+                    <div>
+                        <div class="pub-title">"Hannah Arendt and the Digital Citizenship of Prisoners: Presence, Rights, and the Carceral Screen"</div>
+                        <div class="pub-authors">Prepared for <span class="pub-journal">Philosophy & Social Criticism</span>.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Education / CV summary -->
+            <section id="education">
+                <h2 class="section-title">Education</h2>
+                <ul class="space-y-4">
+                    <li>
+                        <div class="font-semibold text-gray-900">Ph.D. in ASPECT (Alliance for Social, Political, Ethical, and Cultural Thought)</div>
+                        <div class="text-gray-600">Virginia Tech, Expected May 2026</div>
+                        <div class="text-sm text-gray-500 italic mt-1">Dissertation: "Break these Digital Chains: Prisoner Resistance to Carceral Technologies"</div>
+                    </li>
+                    <li>
+                        <div class="font-semibold text-gray-900">M.A. in Political Science</div>
+                        <div class="text-gray-600">Colorado State University, 2021</div>
+                    </li>
+                    <li>
+                        <div class="font-semibold text-gray-900">B.S. in General Social Science, Applied Economics, Business, and Society</div>
+                        <div class="text-gray-600">University of Oregon, 2019</div>
+                    </li>
+                </ul>
+            </section>
+
+        </main>
+    </div>
+
+</body>
+</html>
