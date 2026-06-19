@@ -24,158 +24,7 @@ a:hover {
     text-decoration: underline;
 }
 
-/* ================= Layout & Grids ================= */
-.layout-container {
-    max-width: 72rem;
-    margin: 0 auto;
-    padding: 3rem 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-}
-
-@media (min-width: 768px) {
-    .layout-container {
-        padding: 5rem 1.5rem;
-        flex-direction: row;
-        gap: 4rem;
-    }
-}
-
-.two-col-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
-}
-
-@media (min-width: 768px) {
-    .two-col-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-/* ================= Sidebar Component ================= */
-.sidebar {
-    width: 100%;
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
-
-@media (min-width: 768px) {
-    .sidebar {
-        width: 33.333333%;
-        align-items: flex-start;
-        text-align: left;
-    }
-}
-
-@media (min-width: 1024px) {
-    .sidebar { width: 25%; }
-}
-
-/* Profile Elements */
-.profile-img-container {
-    width: 12rem;
-    height: 12rem;
-    border-radius: 9999px;
-    background-color: #d1d5db;
-    overflow: hidden;
-    margin-bottom: 1.5rem;
-    border: 4px solid #ffffff;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
-.profile-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.profile-name {
-    font-size: 1.875rem;
-    font-weight: 700;
-    color: #111827;
-    margin-bottom: 0.5rem;
-}
-
-.profile-title {
-    font-size: 1.125rem;
-    color: #4b5563;
-    margin-bottom: 1rem;
-}
-
-.divider {
-    width: 100%;
-    height: 1px;
-    background-color: #e5e7eb;
-    margin: 1rem 0;
-}
-
-/* Contact Info */
-.contact-info {
-    font-size: 0.875rem;
-    color: #4b5563;
-    margin-bottom: 1.5rem;
-    width: 100%;
-}
-
-.contact-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
-}
-
-@media (min-width: 768px) {
-    .contact-item { justify-content: flex-start; }
-}
-
-.contact-icon {
-    width: 1.25rem;
-    text-align: center;
-    color: #9ca3af;
-}
-
-/* Social Links */
-.social-links {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
-.social-icon {
-    color: #6b7280;
-    font-size: 1.25rem;
-    transition: color 0.2s ease-in-out;
-}
-
-.social-icon:hover {
-    color: #111827;
-}
-
-/* ================= Main Content Components ================= */
-.main-content {
-    width: 100%;
-}
-
-@media (min-width: 768px) {
-    .main-content { width: 66.666667%; }
-}
-
-@media (min-width: 1024px) {
-    .main-content { width: 75%; }
-}
-
-.content-text {
-    margin-bottom: 1rem;
-    color: #374151;
-}
-
-/* Typography & Headings */
+/* ================= Typography ================= */
 .section-title {
     font-size: 1.5rem;
     font-weight: 600;
@@ -217,7 +66,6 @@ a:hover {
     font-weight: 500;
 }
 
-/* Specific Content Types */
 .pub-authors {
     color: #4b5563;
 }
@@ -251,7 +99,151 @@ a:hover {
     margin-top: 0.5rem;
 }
 
-/* Lists */
+.content-text {
+    margin-bottom: 1rem;
+    color: #374151;
+}
+
+/* ================= Layout & Grids ================= */
+.layout-container {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+@media (min-width: 768px) {
+    .layout-container {
+        padding: 5rem 1.5rem;
+        flex-direction: row;
+        gap: 4rem;
+    }
+}
+
+.two-col-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .two-col-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.sidebar {
+    width: 100%;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .sidebar {
+        width: 33.333333%;
+        align-items: flex-start;
+        text-align: left;
+    }
+}
+
+@media (min-width: 1024px) {
+    .sidebar { width: 25%; }
+}
+
+.main-content {
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .main-content { width: 66.666667%; }
+}
+
+@media (min-width: 1024px) {
+    .main-content { width: 75%; }
+}
+
+/* ================= Components ================= */
+
+/* Profile Components */
+.profile-img-container {
+    width: 12rem;
+    height: 12rem;
+    border-radius: 9999px;
+    background-color: #d1d5db;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    border: 4px solid #ffffff;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-name {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 0.5rem;
+}
+
+.profile-title {
+    font-size: 1.125rem;
+    color: #4b5563;
+    margin-bottom: 1rem;
+}
+
+/* Contact Components */
+.contact-info {
+    font-size: 0.875rem;
+    color: #4b5563;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+@media (min-width: 768px) {
+    .contact-item { justify-content: flex-start; }
+}
+
+.contact-icon {
+    width: 1.25rem;
+    text-align: center;
+    color: #9ca3af;
+}
+
+/* Social Link Components */
+.social-links {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.social-icon {
+    color: #6b7280;
+    font-size: 1.25rem;
+    transition: color 0.2s ease-in-out;
+}
+
+.social-icon:hover {
+    color: #111827;
+}
+
+/* List Components */
 .list-spaced {
     list-style: none;
     padding: 0;
@@ -298,6 +290,13 @@ a:hover {
 }
 
 /* ================= Utility Classes ================= */
+.divider {
+    width: 100%;
+    height: 1px;
+    background-color: #e5e7eb;
+    margin: 1rem 0;
+}
+
 .margin-top-none { margin-top: 0; }
 .margin-bottom-small { margin-bottom: 0.75rem; }
 .section-margin-top { margin-top: 2rem; }
