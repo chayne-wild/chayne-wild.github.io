@@ -1,3 +1,5 @@
+index.html
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,132 +7,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chayne Wild - Personal Website</title>
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css)">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            color: #333;
-            background-color: #fafafa;
-            line-height: 1.6;
-        }
-        a {
-            color: #2563eb;
-            text-decoration: none;
-            transition: color 0.2s ease-in-out;
-        }
-        a:hover {
-            color: #1d4ed8;
-            text-decoration: underline;
-        }
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            border-bottom: 2px solid #e5e7eb;
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
-            margin-top: 2.5rem;
-            color: #111827;
-        }
-        .pub-title {
-            font-weight: 600;
-            color: #1f2937;
-        }
-        .pub-authors {
-            color: #4b5563;
-        }
-        .pub-journal {
-            font-style: italic;
-            color: #374151;
-        }
-        .item-subtitle {
-            font-size: 0.875rem;
-            color: #6b7280;
-            margin-bottom: 0.5rem;
-        }
-    </style>
+    <link href="[https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap](https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap)" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body class="antialiased selection:bg-blue-200 selection:text-blue-900">
+<body>
 
-    <div class="max-w-6xl mx-auto px-6 py-12 md:py-20 flex flex-col md:flex-row gap-12 md:gap-16">
+    <!-- Main Layout Wrapper -->
+    <div class="layout-container">
         
-        <!-- Sidebar / Profile -->
-        <aside class="w-full md:w-1/3 lg:w-1/4 flex flex-col items-center md:items-start text-center md:text-left shrink-0">
-            <!-- Profile Image Placeholder -->
-            <div class="w-48 h-48 rounded-full bg-gray-300 overflow-hidden mb-6 border-4 border-white shadow-lg">
-                <img src="profile.jpg" alt="Chayne Wild Profile Photo" class="w-full h-full object-cover">
+        <!-- Sidebar Profile Details -->
+        <aside class="sidebar">
+            <div class="profile-img-container">
+                <img src="profile.jpg" alt="Chayne Wild Profile Photo" class="profile-img">
             </div>
 
-            <h1 class="text-3xl font-bold text-gray-900 mb-2">Chayne Wild</h1>
-            <p class="text-lg text-gray-600 mb-4">Ph.D. Candidate in ASPECT<br>Virginia Tech</p>
+            <h1 class="profile-name">Chayne Wild</h1>
+            <p class="profile-title">Ph.D. Candidate in ASPECT<br>Virginia Tech</p>
 
-            <div class="w-full h-px bg-gray-200 my-4"></div>
+            <div class="divider"></div>
 
-            <!-- Contact Info -->
-            <div class="text-sm text-gray-600 space-y-3 mb-6 w-full">
-                <p class="flex items-center justify-center md:justify-start gap-2">
-                    <i class="fa-solid fa-envelope w-5 text-center text-gray-400"></i> 
+            <!-- Contact Information -->
+            <div class="contact-info">
+                <p class="contact-item">
+                    <i class="fa-solid fa-envelope contact-icon"></i> 
                     <a href="mailto:chayne.wild@gmail.com">chayne.wild@gmail.com</a>
                 </p>
-                <p class="flex items-center justify-center md:justify-start gap-2">
-                    <i class="fa-solid fa-envelope w-5 text-center text-gray-400"></i> 
+                <p class="contact-item">
+                    <i class="fa-solid fa-envelope contact-icon"></i> 
                     <a href="mailto:chayne@vt.edu">chayne@vt.edu</a>
                 </p>
-                <p class="flex items-center justify-center md:justify-start gap-2">
-                    <i class="fa-solid fa-location-dot w-5 text-center text-gray-400"></i> 
+                <p class="contact-item">
+                    <i class="fa-solid fa-location-dot contact-icon"></i> 
                     <span>Blacksburg, VA / Moscow, ID</span>
                 </p>
             </div>
 
             <!-- Social Links -->
-            <div class="flex gap-4 mb-8">
-                <a href="wild_cv.pdf" class="text-gray-500 hover:text-gray-900 text-xl" title="CV">
+            <div class="social-links">
+                <a href="wild_cv.pdf" class="social-icon" title="CV">
                     <i class="fa-solid fa-file-pdf"></i>
                 </a>
-                <a href="https://scholar.google.com/scholar?hl=en&as_sdt=0%2C13&q=chayne+wild&btnG=" class="text-gray-500 hover:text-gray-900 text-xl" title="Google Scholar">
+                <a href="[https://scholar.google.com/scholar?hl=en&as_sdt=0%2C13&q=chayne+wild&btnG=](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C13&q=chayne+wild&btnG=)" class="social-icon" title="Google Scholar">
                     <i class="fa-brands fa-google"></i>
                 </a>
-                <a href="https://github.com/chayne-wild" class="text-gray-500 hover:text-gray-900 text-xl" title="GitHub">
+                <a href="[https://github.com/chayne-wild](https://github.com/chayne-wild)" class="social-icon" title="GitHub">
                     <i class="fa-brands fa-github"></i>
                 </a>
-                <a href="https://orcid.org/0009-0003-8313-8282" class="text-gray-500 hover:text-gray-900 text-xl" title="ORCID" target="_blank" rel="noopener noreferrer">
+                <a href="[https://orcid.org/0009-0003-8313-8282](https://orcid.org/0009-0003-8313-8282)" class="social-icon" title="ORCID" target="_blank" rel="noopener noreferrer">
                     <i class="fa-brands fa-orcid"></i>
                 </a>
-                <a href="https://www.linkedin.com/in/chayne-wild-746864345" class="text-gray-500 hover:text-gray-900 text-xl" title="LinkedIn">
+                <a href="[https://www.linkedin.com/in/chayne-wild-746864345](https://www.linkedin.com/in/chayne-wild-746864345)" class="social-icon" title="LinkedIn">
                     <i class="fa-brands fa-linkedin"></i>
                 </a>
             </div>
         </aside>
 
-        <!-- Main Content -->
-        <main class="w-full md:w-2/3 lg:w-3/4">
+        <!-- Main Content Area -->
+        <main class="main-content">
             
-            <!-- About Section -->
+            <!-- About -->
             <section id="about">
-                <p class="mb-4 text-gray-700">
+                <p class="content-text">
                     I am a Ph.D. Candidate in the Alliance for Social, Political, Ethical, and Cultural Thought (ASPECT) at Virginia Tech.
                 </p>
-                <p class="mb-4 text-gray-700">
+                <p class="content-text">
                     <strong>Carceral Studies & Decolonial Theory:</strong> My research focuses on the "carceral digital turn" and the evolution of prisoner resistance. I utilize the American Prison Writing Archive (APWA) to center the lived experiences and "shadow canons" of incarcerated intellectuals, challenging state-sanctioned narratives of technological control.
                 </p>
-                <p class="mb-4 text-gray-700">
+                <p class="content-text">
                     <strong>Critical Sociology & Social Thought:</strong> I investigate the intersection of racial capitalism, surveillance, and epistemic authority. Drawing on Stuart Hall, Frantz Fanon, and Karl Marx, I theorize how carceral technologies—from electronic monitoring to digital communication platforms—reproduce colonial hierarchies and how these systems are contested from within.
                 </p>
             </section>
 
-            <!-- News Section -->
-            <section id="news" class="mt-8">
-                <h2 class="section-title mt-0">Recent & Upcoming</h2>
-                <ul class="list-none space-y-3 text-sm text-gray-700">
-                    <li class="flex gap-4">
-                        <span class="font-semibold text-gray-500 whitespace-nowrap w-20">Fall 2026</span>
+            <!-- News -->
+            <section id="news" class="section-margin-top">
+                <h2 class="section-title margin-top-none">Recent & Upcoming</h2>
+                <ul class="list-spaced list-text-small">
+                    <li class="news-item">
+                        <span class="news-date">Fall 2026</span>
                         <span>Target defense date for Ph.D. dissertation.</span>
                     </li>
-                    <li class="flex gap-4">
-                        <span class="font-semibold text-gray-500 whitespace-nowrap w-20">May 2026</span>
+                    <li class="news-item">
+                        <span class="news-date">May 2026</span>
                         <span>Book review published in <em>ACJS Today</em>.</span>
                     </li>
                 </ul>
@@ -139,79 +101,75 @@
             <!-- Education -->
             <section id="education">
                 <h2 class="section-title">Education</h2>
-                <ul class="space-y-6">
+                <ul class="list-spaced">
                     <li>
-                        <div class="font-semibold text-gray-900 text-lg">Ph.D. in ASPECT (Alliance for Social, Political, Ethical, and Cultural Thought)</div>
+                        <div class="degree-title">Ph.D. in ASPECT (Alliance for Social, Political, Ethical, and Cultural Thought)</div>
                         <div class="item-subtitle">Virginia Tech, Blacksburg, VA | Expected Defense: Fall 2026</div>
-                        <div class="text-sm text-gray-700 mt-2">
-                            <span class="font-medium">Dissertation:</span> <em>"Break these Digital Chains: Prisoner Resistance to Carceral Technologies"</em><br>
-                            <span class="font-medium">Committee:</span> Onwubiko Agozino (Chair), Sylvester Johnson, Max Stephenson, Robert Perdue
+                        <div class="degree-details">
+                            <span class="detail-label">Dissertation:</span> <em>"Break these Digital Chains: Prisoner Resistance to Carceral Technologies"</em><br>
+                            <span class="detail-label">Committee:</span> Onwubiko Agozino (Chair), Sylvester Johnson, Max Stephenson, Robert Perdue
                         </div>
                     </li>
                     <li>
-                        <div class="font-semibold text-gray-900 text-lg">M.A. in Political Science</div>
+                        <div class="degree-title">M.A. in Political Science</div>
                         <div class="item-subtitle">Colorado State University, Fort Collins, CO | 2025</div>
-                        <div class="text-sm text-gray-700 mt-2">
-                            <span class="font-medium">Thesis:</span> <em>"Crisis, Which Crisis? Examining the Letcher County Flood Through the Frameworks of Shock, Conjuncture, and Dislocation"</em><br>
-                            <span class="font-medium">Committee:</span> Bradley Macdonald (Chair), David McIvor, Joshua Sbicca
+                        <div class="degree-details">
+                            <span class="detail-label">Thesis:</span> <em>"Crisis, Which Crisis? Examining the Letcher County Flood Through the Frameworks of Shock, Conjuncture, and Dislocation"</em><br>
+                            <span class="detail-label">Committee:</span> Bradley Macdonald (Chair), David McIvor, Joshua Sbicca
                         </div>
                     </li>
                     <li>
-                        <div class="font-semibold text-gray-900 text-lg">B.S. in General Social Science, Applied Economics, Business, and Society</div>
+                        <div class="degree-title">B.S. in General Social Science, Applied Economics, Business, and Society</div>
                         <div class="item-subtitle">University of Oregon, Eugene, OR | 2019</div>
                     </li>
                 </ul>
             </section>
 
-            <!-- Publications Section -->
+            <!-- Publications -->
             <section id="publications">
                 <h2 class="section-title">Publications & Book Reviews</h2>
                 
-                <div class="space-y-6">
-                    <!-- Publication 1 -->
+                <div class="list-spaced">
                     <div>
-                        <div class="pub-title">Review of <em>Inside Knowledge: Incarcerated People on the Failures of the American Prison</em> by Doran Larson (NYU Press, 2024).</div>
+                        <div class="item-title">Review of <em>Inside Knowledge: Incarcerated People on the Failures of the American Prison</em> by Doran Larson (NYU Press, 2024).</div>
                         <div class="pub-authors"><span class="pub-journal">ACJS Today</span>, 55.3 (May 2026): 24–26.</div>
-                        <div class="mt-1 space-x-3 text-sm">
-                            <a href="https://www.acjs.org/acjs-today-newsletter/"><i class="fa-solid fa-link"></i> Link</a>
+                        <div class="pub-links">
+                            <a href="[https://www.acjs.org/acjs-today-newsletter/](https://www.acjs.org/acjs-today-newsletter/)"><i class="fa-solid fa-link"></i> Link</a>
+                        </div>
                     </div>
-                        <br>
 
-                    <!-- Publication 2 -->
                     <div>
-                        <div class="pub-title">Review of <em>Plastic Matter</em> by Heather Davis (Duke University Press, 2022).</div>
+                        <div class="item-title">Review of <em>Plastic Matter</em> by Heather Davis (Duke University Press, 2022).</div>
                         <div class="pub-authors"><span class="pub-journal">Lateral: Journal of the Cultural Studies Association</span>, Vol. 13, No. 1 (Spring 2024).</div>
-                        <div class="mt-1 space-x-3 text-sm">
-                            <a href="https://www.jstor.org/stable/48826816"><i class="fa-solid fa-link"></i> Link</a>
+                        <div class="pub-links">
+                            <a href="[https://www.jstor.org/stable/48826816](https://www.jstor.org/stable/48826816)"><i class="fa-solid fa-link"></i> Link</a>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Working Papers Section -->
+            <!-- Working Papers -->
             <section id="working-papers">
                 <h2 class="section-title">Manuscripts in Preparation</h2>
                 
-                <div class="space-y-6">
-                    <!-- Working Paper 1 -->
+                <div class="list-spaced">
                     <div>
-                        <div class="pub-title">"Frantz Fanon’s Influence on Francesc Tosquelles and the Post-Colonial Legacy of Institutional Psychotherapy"</div>
+                        <div class="item-title">"Frantz Fanon’s Influence on Francesc Tosquelles and the Post-Colonial Legacy of Institutional Psychotherapy"</div>
                         <div class="pub-authors">Targeted for <span class="pub-journal">Theory, Culture, and Society</span>.</div>
-                        <p class="text-sm text-gray-600 mt-1">A qualitative article investigating the inverse relationship of influence between Fanon and Tosquelles, tracing how Fanon's organic activist focus and concept of "sociogeny" fed back into the institutional psychotherapy movement.</p>
+                        <p class="paper-abstract">A qualitative article investigating the inverse relationship of influence between Fanon and Tosquelles, tracing how Fanon's organic activist focus and concept of "sociogeny" fed back into the institutional psychotherapy movement.</p>
                     </div>
 
-                    <!-- Working Paper 2 -->
                     <div>
-                        <div class="pub-title">"The Mythology of Rights: Democracy, Rights, and Access"</div>
+                        <div class="item-title">"The Mythology of Rights: Democracy, Rights, and Access"</div>
                         <div class="pub-authors">Co-authored chapter (with David McIvor) for the edited collection <span class="pub-journal">What Needs to Be Said About Democracy, Right Now</span> (Central European University Press, forthcoming).</div>
                     </div>
                 </div>
             </section>
 
-            <!-- Conference Presentations -->
+            <!-- Presentations -->
             <section id="presentations">
                 <h2 class="section-title">Conference Presentations</h2>
-                <ul class="list-disc pl-5 space-y-3 text-gray-700">
+                <ul class="presentation-list">
                     <li>
                         <strong>"Worlding Together from Worlds Apart: The Convergence of Ancestry, Kin, and Language in Robin Wall Kimmerer and George Jackson."</strong> Co-presented with Trevor Jeyaraj. <em>ASPECT Graduate Conference, Virginia Tech</em> (Spring 2024).
                     </li>
@@ -234,21 +192,21 @@
             <section id="teaching">
                 <h2 class="section-title">Teaching Experience</h2>
                 
-                <h3 class="text-lg font-bold text-gray-900 mb-4 border-b border-gray-200 pb-1 inline-block">Instructor of Record | Virginia Tech</h3>
-                <div class="space-y-6 mb-8">
+                <h3 class="role-title">Instructor of Record | Virginia Tech</h3>
+                <div class="list-spaced section-margin-bottom">
                     <div>
-                        <div class="font-semibold text-gray-800">PSCI 2014: Introduction to Political Theory</div>
+                        <div class="item-title">PSCI 2014: Introduction to Political Theory</div>
                         <div class="item-subtitle">Summer 2022, Fall 2022, Spring 2023</div>
-                        <ul class="list-disc pl-5 text-sm text-gray-700 space-y-1 mt-2">
+                        <ul class="course-list">
                             <li><strong>Theories of Self, Care, and Technology (Spring 2023):</strong> Redesigned curriculum around gnothi seauton in the post-information age, exploring neurobiology, phenomenology, and psychoanalysis to interrogate governmentality and AI/social media impact.</li>
                             <li><strong>Human Nature, Ethics, and Resistance (Fall 2022):</strong> Facilitated a traditional survey of foundational thought (Machiavelli, Plato, Hobbes) updated with a focus on direct action and the ethics of violence (Graeber, Butler, Malm).</li>
                             <li><strong>Digital Humanities & Applied Theory (Summer 2022):</strong> Adapted materials into an asynchronous digital format, produced an original political theory podcast with guests, and mentored creative digital humanities final projects.</li>
                         </ul>
                     </div>
                     <div>
-                        <div class="font-semibold text-gray-800">PSCI 1014: Introduction to US Government and Politics</div>
+                        <div class="item-title">PSCI 1014: Introduction to US Government and Politics</div>
                         <div class="item-subtitle">Fall 2021, Spring 2022</div>
-                        <ul class="list-disc pl-5 text-sm text-gray-700 space-y-1 mt-2">
+                        <ul class="course-list">
                             <li>Designed an experiential curriculum focused on institutional organizations and direct action via discussion-heavy seminars.</li>
                             <li>Conducted an immersive mock-trial to apply critical legal and political theory to procedural practice.</li>
                             <li>Guided student-lead democratic campaigns on campus safety and rights, overseeing FOIA requests and media outreach.</li>
@@ -256,31 +214,31 @@
                     </div>
                 </div>
 
-                <h3 class="text-lg font-bold text-gray-900 mb-4 border-b border-gray-200 pb-1 inline-block">Graduate Teaching Assistant | Virginia Tech</h3>
-                <div class="space-y-4 mb-8">
+                <h3 class="role-title">Graduate Teaching Assistant | Virginia Tech</h3>
+                <div class="list-spaced section-margin-bottom">
                     <div>
-                        <div class="font-semibold text-gray-800">AFST 1814: Introduction to African Studies</div>
+                        <div class="item-title">AFST 1814: Introduction to African Studies</div>
                         <div class="item-subtitle">Spring 2026</div>
-                        <p class="text-sm text-gray-700">Assisted with scholarly research on African policy, decolonization, and US Africom, while managing course content and digital submissions.</p>
+                        <p class="role-description">Assisted with scholarly research on African policy, decolonization, and US Africom, while managing course content and digital submissions.</p>
                     </div>
                     <div>
-                        <div class="font-semibold text-gray-800">SOC 4404: Sociology of Law</div>
+                        <div class="item-title">SOC 4404: Sociology of Law</div>
                         <div class="item-subtitle">Spring 2025, Spring 2026</div>
-                        <p class="text-sm text-gray-700">Supported discussions and student "Scholar-Activism" initiatives of community engagement, including the Appalachian Prison Book Project.</p>
+                        <p class="role-description">Supported discussions and student "Scholar-Activism" initiatives of community engagement, including the Appalachian Prison Book Project.</p>
                     </div>
                 </div>
 
-                <h3 class="text-lg font-bold text-gray-900 mb-4 border-b border-gray-200 pb-1 inline-block">Graduate Teaching Assistant | Colorado State University</h3>
-                <div class="space-y-4">
+                <h3 class="role-title">Graduate Teaching Assistant | Colorado State University</h3>
+                <div class="list-spaced section-margin-bottom">
                     <div>
-                        <div class="font-semibold text-gray-800">POLS 131: Current World Problems</div>
+                        <div class="item-title">POLS 131: Current World Problems</div>
                         <div class="item-subtitle">Spring 2020</div>
-                        <p class="text-sm text-gray-700">Assisted in a course examining contemporary global issues, international conflict, human rights, and the global economy.</p>
+                        <p class="role-description">Assisted in a course examining contemporary global issues, international conflict, human rights, and the global economy.</p>
                     </div>
                     <div>
-                        <div class="font-semibold text-gray-800">POLS 232: International Relations</div>
+                        <div class="item-title">POLS 232: International Relations</div>
                         <div class="item-subtitle">Fall 2019</div>
-                        <p class="text-sm text-gray-700">Supported discussion-heavy instruction on fundamental theories, state roles, international organizations, and non-state actors.</p>
+                        <p class="role-description">Supported discussion-heavy instruction on fundamental theories, state roles, international organizations, and non-state actors.</p>
                     </div>
                 </div>
             </section>
@@ -288,36 +246,36 @@
             <!-- Research Experience -->
             <section id="research-experience">
                 <h2 class="section-title">Research Experience</h2>
-                <div class="space-y-6">
+                <div class="list-spaced">
                     <div>
-                        <div class="font-semibold text-gray-900">Graduate Research Assistant | Dr. Onwubiko Agozino, Virginia Tech</div>
+                        <div class="item-title">Graduate Research Assistant | Dr. Onwubiko Agozino, Virginia Tech</div>
                         <div class="item-subtitle">2023 – Present</div>
-                        <ul class="list-disc pl-5 text-sm text-gray-700 space-y-1">
+                        <ul class="course-list">
                             <li><strong>Africana Reading of Marx’s Das Kapital:</strong> Providing research and editorial support for a book project re-evaluating Marx through an Africana lens.</li>
                             <li><strong>Stuart Hall Archive & Book Project:</strong> Contributing research and editorial support to a forthcoming volume on Stuart Hall.</li>
                         </ul>
                     </div>
                     <div>
-                        <div class="font-semibold text-gray-900">Graduate Research Assistant | Dr. Heidi Williams, Virginia Tech</div>
+                        <div class="item-title">Graduate Research Assistant | Dr. Heidi Williams, Virginia Tech</div>
                         <div class="item-subtitle">2024</div>
-                        <p class="text-sm text-gray-700">Investigated "incarceration trauma" and its socio-emotional and economic impacts on children and families within marginalized communities. Explored specialized topics like "multipartnered fertility" in the context of parental incarceration, developing literature reviews and bibliographies.</p>
+                        <p class="role-description">Investigated "incarceration trauma" and its socio-emotional and economic impacts on children and families within marginalized communities. Explored specialized topics like "multipartnered fertility" in the context of parental incarceration, developing literature reviews and bibliographies.</p>
                     </div>
                     <div>
-                        <div class="font-semibold text-gray-900">Graduate Research Assistant | Straayer Center for Public Service Leadership</div>
+                        <div class="item-title">Graduate Research Assistant | Straayer Center for Public Service Leadership</div>
                         <div class="item-subtitle">Colorado State University, 2019 – 2021</div>
-                        <p class="text-sm text-gray-700">Conducted policy research and supported community outreach for public-sector leadership programs and undergraduate internship best practices.</p>
+                        <p class="role-description">Conducted policy research and supported community outreach for public-sector leadership programs and undergraduate internship best practices.</p>
                     </div>
                 </div>
             </section>
 
             <!-- Service & Memberships -->
-            <section id="service-memberships" class="mb-12">
+            <section id="service-memberships" class="section-margin-bottom-large">
                 <h2 class="section-title">Editorial, Professional Service & Memberships</h2>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="two-col-grid">
                     <div>
-                        <h3 class="font-semibold text-gray-900 mb-3">Community Change Collaborative (CCC) | Virginia Tech</h3>
-                        <ul class="list-disc pl-5 text-sm text-gray-700 space-y-2">
+                        <h3 class="degree-title margin-bottom-small">Community Change Collaborative (CCC) | Virginia Tech</h3>
+                        <ul class="course-list margin-top-none">
                             <li><strong>Treasurer (2024):</strong> Managed financial reporting and fund allocation for interdisciplinary projects.</li>
                             <li><strong>Editor (2024):</strong> Oversaw the peer-review process and coordinated internal reviews for the graduate-led <em>Community Change Journal (CCJ)</em>.</li>
                             <li><strong>Organizer:</strong> Coordinated multiple speaker series events, including hosting Dr. Judah Schept (2024).</li>
@@ -326,8 +284,8 @@
                     </div>
                     
                     <div>
-                        <h3 class="font-semibold text-gray-900 mb-3">Professional Memberships</h3>
-                        <ul class="list-disc pl-5 text-sm text-gray-700 space-y-2">
+                        <h3 class="degree-title margin-bottom-small">Professional Memberships</h3>
+                        <ul class="course-list margin-top-none">
                             <li>American Political Science Association (APSA) - Section 27 (Critical Political Science)</li>
                             <li>American Society of Criminology (ASC)</li>
                             <li>Academy of Criminal Justice Sciences (ACJS)</li>
@@ -338,6 +296,5 @@
 
         </main>
     </div>
-
 </body>
 </html>
