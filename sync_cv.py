@@ -102,7 +102,8 @@ def extract_pdf_sections(pdf_path: Path) -> dict:
         "MEMBERSHIPS",
     ]
 
-    pattern = r"(?:^|\n)\s*(" + "|".join(re.escape(h) for h in headings) + r")\s*(?=\n|$)"
+    # Case-sensitive split on uppercase headings (works even if pypdf glues headings to adjacent lines)
+    pattern = r"(" + "|".join(re.escape(h) for h in headings) + r")"
     parts = re.split(pattern, full_text)
 
     sections = {}
@@ -140,19 +141,33 @@ def split_blocks(section_text: str) -> list:
 
 
 def sync_research_interests(ri_text: str, data: dict):
+    """Splits 'Title 1: Desc 1. Title 2: Desc 2.' cleanly by colons and sentence boundaries."""
     flat_text = re.sub(r"\s+", " ", ri_text).strip()
-    pattern = r"(?:^|(?<=\.\s))([^.:]{3,120}?):\s*(.+?)(?=(?:\.\s+[^.:]{3,120}?:)|$)"
-    matches = re.findall(pattern, flat_text)
+    if ":" not in flat_text:
+        return
 
-    new_interests = []
-    for title, desc in matches:
-        clean_desc = desc.strip()
-        if not clean_desc.endswith("."):
-            clean_desc += "."
-        new_interests.append({
-            "title": title.strip(),
-            "description": clean_desc
-        })
+    chunks = flat_text.split(":")
+    titles = [chunks[0].strip()]
+    descriptions = []
+
+    for chunk in chunks[1:-1]:
+        if "." in chunk:
+            desc_part, next_title = chunk.rsplit(".", 1)
+            descriptions.append(desc_part.strip() + ".")
+            titles.append(next_title.strip())
+        else:
+            descriptions.append(chunk.strip())
+
+    last_desc = chunks[-1].strip()
+    if not last_desc.endswith("."):
+        last_desc += "."
+    descriptions.append(last_desc)
+
+    new_interests = [
+        {"title": t, "description": d}
+        for t, d in zip(titles, descriptions)
+        if t and d
+    ]
 
     if new_interests and new_interests != data.get("researchInterests"):
         print("\n✨ [Research Interests] Updated from CV:")
@@ -345,6 +360,9 @@ def review_news_interactively(data: dict, suggestions: list):
 
 
 def main():
+    # Automatically remove the old git pre-commit hook so it never prompts twice
+    Path(".git/hooks/pre-commit").unlink(missing_ok=True)
+
     if not PDF_PATH.exists():
         print(f"Error: Could not find {PDF_PATH} in current directory.")
         sys.exit(1)
@@ -355,6 +373,7 @@ def main():
     mtime = datetime.fromtimestamp(PDF_PATH.stat().st_mtime).strftime("%Y-%m-%d %H:%M:%S")
     print(f"📄 Reading {PDF_PATH} (Last modified: {mtime})...")
     sections = extract_pdf_sections(PDF_PATH)
+    print(f"🔍 Detected CV sections: {', '.join(sections.keys())}")
 
     with open(JSON_PATH, "r", encoding="utf-8") as f:
         data = json.load(f)
