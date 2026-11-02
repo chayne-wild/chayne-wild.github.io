@@ -1,15 +1,5 @@
-cd ~/chayne-wild.github.io
-rm -f .git/hooks/pre-commit
-
-cat << 'EOF' > sync_cv.py
+cat << 'EOF' > ~/chayne-wild.github.io/sync_cv.py
 #!/usr/bin/env python3
-"""
-sync_cv.py
-Reads wild_cv.pdf, detects changes/new entries across sections, enforces
-Newest/Forthcoming -> Oldest sorting, and interactively prompts to verify
-'Recent & Upcoming' (news) items.
-"""
-
 import json
 import re
 import sys
@@ -17,11 +7,7 @@ from datetime import datetime
 from difflib import SequenceMatcher
 from pathlib import Path
 
-try:
-    from pypdf import PdfReader
-except ImportError:
-    print("Error: pypdf is not installed. Run: pip install pypdf")
-    sys.exit(1)
+from pypdf import PdfReader
 
 PDF_PATH = Path("wild_cv.pdf")
 JSON_PATH = Path("cv.json")
@@ -63,7 +49,6 @@ def academic_date_key(date_str: str, original_index: int = 0) -> tuple:
 
 
 def sort_chronologically(items: list, date_getter) -> list:
-    """Safely sorts items Newest/Forthcoming -> Oldest without mutating in-place."""
     indexed = list(enumerate(items))
     indexed.sort(
         key=lambda pair: academic_date_key(date_getter(pair[1]), pair[0]),
@@ -156,7 +141,6 @@ def split_blocks(section_text: str) -> list:
 
 
 def sync_research_interests(ri_text: str, data: dict):
-    """Parses 'Title: Description' pairs even if the title wraps across PDF lines."""
     flat_text = re.sub(r"\s+", " ", ri_text).strip()
     pattern = r"(?:^|(?<=\.\s))([^.:]{3,120}?):\s*(.+?)(?=(?:\.\s+[^.:]{3,120}?:)|$)"
     matches = re.findall(pattern, flat_text)
@@ -404,4 +388,3 @@ def main():
 if __name__ == "__main__":
     main()
 EOF
-chmod +x sync_cv.py
