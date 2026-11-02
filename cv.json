@@ -5,7 +5,10 @@
     "institution": "Virginia Tech",
     "photo": "profile.jpg",
     "cvPdf": "wild_cv.pdf",
-    "emails": ["chayne@vt.edu", "chayne.wild@gmail.com"],
+    "emails": [
+      "chayne@vt.edu",
+      "chayne.wild@gmail.com"
+    ],
     "location": "Blacksburg, VA & Moscow, ID",
     "lead": "I am a Ph.D. Candidate in the Alliance for Social, Political, Ethical, and Cultural Thought (ASPECT) at Virginia Tech."
   },
