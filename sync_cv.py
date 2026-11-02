@@ -67,7 +67,7 @@ def extract_date_from_text(text: str) -> str:
     if m:
         return f"{m.group(1)} {m.group(2)}"
     y = re.search(r"\b(20\d{2})\b", text)
-    return y.group(1) if y else ""
+    return y.group(1) if y else "2026"
 
 
 def strip_html(text: str) -> str:
@@ -87,7 +87,6 @@ def is_same_entry(pdf_block: str, json_text: str, threshold: float = 0.65) -> bo
 def extract_pdf_sections(pdf_path: Path) -> dict:
     reader = PdfReader(str(pdf_path))
     raw_text = " ".join(page.extract_text() or "" for page in reader.pages)
-    # Collapse pypdf's mid-line word breaks into clean single spaces
     full_text = re.sub(r"\s+", " ", raw_text)
 
     headings = [
@@ -115,11 +114,8 @@ def extract_pdf_sections(pdf_path: Path) -> dict:
 
 
 def split_publications(pub_text: str) -> list:
-    """Splits flattened publications text into individual entries."""
     flat = re.sub(r"\s+", " ", pub_text).strip()
-    # Break after any URL
     flat = re.sub(r"(https?://\S+)\s+", r"\1\n\n", flat)
-    # Break after a period when followed by 'Wild, Chayne', 'Review of', 'Last, First. YYYY', or a quote
     flat = re.sub(
         r'(?<=\.)\s+(?=(?:Wild,\s*Chayne|Review\s+of\b|[A-Z][a-z]+,\s+[A-Z][a-z]+\.\s+(?:19|20)\d{2}|[“"]))',
         "\n\n",
@@ -129,7 +125,6 @@ def split_publications(pub_text: str) -> list:
 
 
 def split_quoted_entries(section_text: str) -> list:
-    """Splits Presentations or Manuscripts that begin with an opening quotation mark."""
     flat = re.sub(r"\s+", " ", section_text).strip()
     parts = re.split(r'(?<=\.)\s+(?=[“"])', flat)
     return [p.strip() for p in parts if p.strip()]
@@ -164,49 +159,44 @@ def sync_research_interests(ri_text: str, data: dict):
     ]
 
     if new_interests and new_interests != data.get("researchInterests"):
-        print("\n✨ [Research Interests] Updated from CV:")
-        for item in new_interests:
-            print(f"  • {item['title']}: {item['description'][:65]}...")
+        print("✨ [Research Interests] Auto-updated from CV.")
         data["researchInterests"] = new_interests
 
 
-def sync_education(edu_text: str, data: dict) -> list:
-    new_news_suggestions = []
+def sync_education(edu_text: str, data: dict):
     phd = data["education"][0]
     flat_edu = re.sub(r"\s+", " ", edu_text).strip()
 
-    # Check Dissertation Title up to 'Committee:'
     diss_match = re.search(r"Dissertation:\s*(.+?)\s*Committee:", flat_edu)
     if diss_match:
         new_title = diss_match.group(1).strip()
         if phd.get("thesisTitle") != new_title:
-            print(f"\n✨ [Education] Updated Dissertation Title:\n  Old: {phd.get('thesisTitle')}\n  New: {new_title}")
+            print(f"✨ [Education] Auto-updated Dissertation Title: {new_title}")
             phd["thesisTitle"] = new_title
 
-    # Check Target Defense Date
     def_match = re.search(r"\(Target Defense:\s*([^)]+)\)", flat_edu, re.IGNORECASE)
     if def_match:
         new_def_date = def_match.group(1).strip()
         expected_str = f"Target Defense: {new_def_date}"
         if phd.get("date") != expected_str:
-            ans = input(
-                f"\n[Education] PDF says '{expected_str}', while cv.json has '{phd.get('date')}'.\n"
-                f"  Update cv.json to '{expected_str}'? [y/N]: "
-            ).strip().lower()
-            if ans == "y":
-                phd["date"] = expected_str
-                new_news_suggestions.append(
-                    (new_def_date, f"Target defense for Ph.D. dissertation, <em>{phd['thesisTitle']}</em>.")
-                )
+            print(f"✨ [Education] Auto-updated Target Defense: {expected_str}")
+            phd["date"] = expected_str
 
-    return new_news_suggestions
+        # Keep the dissertation defense item in 'news' synced in-place
+        for item in data.get("news", []):
+            if "target defense" in item.get("text", "").lower():
+                item["date"] = new_def_date
+                item["text"] = f"Target defense for Ph.D. dissertation, <em>{phd['thesisTitle']}</em>."
 
 
-def sync_publications(pub_text: str, data: dict) -> list:
+def sync_publications(pub_text: str, data: dict):
+    """
+    Preserves the exact top-to-bottom order from the CV (Newest/Forthcoming at top).
+    Defaults new items to 'Peer-Reviewed Article'.
+    """
     blocks = split_publications(pub_text)
     existing_pubs = data.get("publications", [])
     updated_pubs = []
-    new_news_suggestions = []
 
     for block in blocks:
         matched = None
@@ -220,15 +210,22 @@ def sync_publications(pub_text: str, data: dict) -> list:
         if matched:
             updated_pubs.append(matched)
         else:
-            print(f"\n✨ [New Publication Detected in CV]:\n  {block}")
-            pub_type = input("  Badge Type (e.g., Peer-Reviewed Article, Book Review, Computational Software) [Publication]: ").strip() or "Publication"
-            default_date = extract_date_from_text(block) or "2026"
-            pub_year = input(f"  Publication Date/Year [{default_date}]: ").strip() or default_date
+            # Auto-classify badge type (defaults to Peer-Reviewed Article)
+            lower_block = block.lower()
+            if lower_block.startswith("review of "):
+                pub_type = "Book Review"
+                badge_class = ""
+            elif "[computer software]" in lower_block:
+                pub_type = "Computational Software"
+                badge_class = "badge-software"
+            else:
+                pub_type = "Peer-Reviewed Article"
+                badge_class = ""
+
+            pub_year = extract_date_from_text(block)
 
             url_match = re.search(r"(https?://\S+)", block)
-            default_url = url_match.group(1).rstrip(".") if url_match else ""
-            url = input(f"  External Link URL [{default_url or 'Enter to skip'}]: ").strip() or default_url
-
+            url = url_match.group(1).rstrip(".") if url_match else ""
             links = []
             if url:
                 label = "Code & Repository" if "github.com" in url else "Publication Link"
@@ -238,24 +235,17 @@ def sync_publications(pub_text: str, data: dict) -> list:
             clean_title = re.sub(r"https?://\S+", "", block).strip()
             new_entry = {
                 "type": pub_type,
-                "badgeClass": "badge-software" if "software" in pub_type.lower() else "",
+                "badgeClass": badge_class,
                 "year": pub_year,
                 "titleHtml": clean_title,
                 "authorsHtml": "Wild, Chayne.",
                 "citation": block,
                 "links": links,
             }
+            print(f"✨ [Publications] Auto-added ({pub_type}): {clean_title[:70]}...")
             updated_pubs.append(new_entry)
-            new_news_suggestions.append((pub_year, f"New {pub_type.lower()} published: {clean_title}"))
 
-    for pub in existing_pubs:
-        if pub not in updated_pubs:
-            keep = input(f"\n⚠️ Existing publication not found in PDF: '{strip_html(pub['titleHtml'])[:60]}...'\n  Keep it on the website anyway? [Y/n]: ").strip().lower()
-            if keep != "n":
-                updated_pubs.append(pub)
-
-    data["publications"] = sort_chronologically(updated_pubs, lambda item: item.get("year", ""))
-    return new_news_suggestions
+    data["publications"] = updated_pubs
 
 
 def sync_manuscripts(ms_text: str, data: dict):
@@ -273,21 +263,21 @@ def sync_manuscripts(ms_text: str, data: dict):
         if matched:
             updated_ms.append(matched)
         else:
-            print(f"\n✨ [New Manuscript in Prep Detected in CV]:\n  {block}")
             m = re.match(r'^([“"][^”"]+[”"])\s*(.*)$', block)
             title = m.group(1) if m else block
             rest = m.group(2) if m else ""
+            print(f"✨ [Manuscripts] Auto-added: {title}")
             updated_ms.append({"title": title, "venueHtml": rest})
 
     if updated_ms:
         data["manuscripts"] = updated_ms
 
 
-def sync_presentations(pres_text: str, data: dict) -> list:
+def sync_presentations(pres_text: str, data: dict):
+    """Preserves exact top-to-bottom order from the CV."""
     blocks = split_quoted_entries(pres_text)
     existing_pres = data.get("presentations", [])
     updated_pres = []
-    new_news_suggestions = []
 
     for block in blocks:
         matched = None
@@ -300,65 +290,25 @@ def sync_presentations(pres_text: str, data: dict) -> list:
         if matched:
             updated_pres.append(matched)
         else:
-            print(f"\n✨ [New Conference Presentation Detected in CV]:\n  {block}")
             m = re.match(r'^([“"][^”"]+[”"])\s*(.*)$', block)
             if m:
                 title, details = m.group(1), m.group(2)
             else:
                 title, details = block, ""
+            print(f"✨ [Presentations] Auto-added: {title}")
+            updated_pres.append({"title": title, "detailsHtml": details})
 
-            new_entry = {"title": title, "detailsHtml": details}
-            updated_pres.append(new_entry)
-            pres_date = extract_date_from_text(block) or "Upcoming"
-            new_news_suggestions.append((pres_date, f"Presenting {title} at {details}"))
-
-    data["presentations"] = sort_chronologically(
-        updated_pres, lambda item: extract_date_from_text(item.get("detailsHtml", ""))
-    )
-    return new_news_suggestions
+    data["presentations"] = updated_pres
 
 
-def review_news_interactively(data: dict, suggestions: list):
-    print("\n" + "=" * 65)
-    print(" 🔔 VERIFY 'RECENT & UPCOMING' (NEWS) SECTION")
-    print("=" * 65)
-
-    news_list = data.get("news", [])
-
-    for suggested_date, suggested_text in suggestions:
-        print(f"\nSuggested update from CV changes:\n  [{suggested_date}] {suggested_text}")
-        ans = input("  Add this to 'Recent & Upcoming'? [y/N]: ").strip().lower()
-        if ans == "y":
-            custom_date = input(f"  Date label [{suggested_date}]: ").strip() or suggested_date
-            custom_text = input(f"  Text [{suggested_text}]: ").strip() or suggested_text
-            news_list.insert(0, {"date": custom_date, "text": custom_text})
-
-    verified_news = []
-    print("\nReviewing current 'Recent & Upcoming' items:")
-    for idx, item in enumerate(news_list, start=1):
-        print(f"\n  {idx}. [{item['date']}] {item['text']}")
-        choice = input("     Action -> [K]eep (Enter), [E]dit, or [D]elete? ").strip().lower()
-        if choice == "d":
-            print("     ✗ Removed.")
-            continue
-        elif choice == "e":
-            new_date = input(f"     New date [{item['date']}]: ").strip() or item["date"]
-            new_text = input(f"     New text [{item['text']}]: ").strip() or item["text"]
-            verified_news.append({"date": new_date, "text": new_text})
-            print("     ✓ Updated.")
-        else:
-            verified_news.append(item)
-
-    while True:
-        add_more = input("\nAdd a custom 'Recent & Upcoming' item? [y/N]: ").strip().lower()
-        if add_more != "y":
-            break
-        n_date = input("  Date (e.g., Spring 2027, December 2026): ").strip()
-        n_text = input("  Description (HTML like <em>Title</em> allowed): ").strip()
-        if n_date and n_text:
-            verified_news.append({"date": n_date, "text": n_text})
-
-    data["news"] = sort_chronologically(verified_news, lambda item: item.get("date", ""))
+def clean_and_sort_news(data: dict):
+    """Removes any accidental 'Y' entries and sorts news newest-to-oldest."""
+    cleaned = [
+        item for item in data.get("news", [])
+        if item.get("date", "").strip().upper() != "Y"
+        and item.get("text", "").strip().upper() != "Y"
+    ]
+    data["news"] = sort_chronologically(cleaned, lambda item: item.get("date", ""))
 
 
 def main():
@@ -374,34 +324,34 @@ def main():
     mtime = datetime.fromtimestamp(PDF_PATH.stat().st_mtime).strftime("%Y-%m-%d %H:%M:%S")
     print(f"📄 Reading {PDF_PATH} (Last modified: {mtime})...")
     sections = extract_pdf_sections(PDF_PATH)
-    print(f"🔍 Detected CV sections: {', '.join(sections.keys())}")
 
     with open(JSON_PATH, "r", encoding="utf-8") as f:
         data = json.load(f)
 
-    suggestions = []
+    # Clean up any accidental 'Y' entries in news first
+    clean_and_sort_news(data)
 
     if "RESEARCH INTERESTS" in sections:
         sync_research_interests(sections["RESEARCH INTERESTS"], data)
 
     if "EDUCATION" in sections:
-        suggestions.extend(sync_education(sections["EDUCATION"], data))
+        sync_education(sections["EDUCATION"], data)
 
     if "RESEARCH & PUBLICATIONS" in sections:
-        suggestions.extend(sync_publications(sections["RESEARCH & PUBLICATIONS"], data))
+        sync_publications(sections["RESEARCH & PUBLICATIONS"], data)
 
     if "MANUSCRIPTS IN PREPARATION" in sections:
         sync_manuscripts(sections["MANUSCRIPTS IN PREPARATION"], data)
 
     if "CONFERENCE PRESENTATIONS" in sections:
-        suggestions.extend(sync_presentations(sections["CONFERENCE PRESENTATIONS"], data))
+        sync_presentations(sections["CONFERENCE PRESENTATIONS"], data)
 
-    review_news_interactively(data, suggestions)
+    clean_and_sort_news(data)
 
     with open(JSON_PATH, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
-    print(f"\n✅ Successfully synced and sorted {JSON_PATH} (Newest/Forthcoming -> Oldest)!")
+    print(f"✅ Auto-synced {JSON_PATH} from {PDF_PATH}!")
 
 
 if __name__ == "__main__":
