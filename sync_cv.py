@@ -1,9 +1,11 @@
+cat << 'EOF' > sync_cv.py
 #!/usr/bin/env python3
 """
 sync_cv.py
-Reads wild_cv.pdf, detects changes/new entries in Education, Publications,
-Manuscripts, and Conference Presentations, enforces Newest/Forthcoming -> Oldest
-sorting, and interactively prompts to verify 'Recent & Upcoming' (news) items.
+Reads wild_cv.pdf, detects changes/new entries in Research Interests, Education,
+Publications, Manuscripts, and Conference Presentations, enforces
+Newest/Forthcoming -> Oldest sorting, and interactively prompts to verify
+'Recent & Upcoming' (news) items.
 """
 
 import json
@@ -21,7 +23,6 @@ except ImportError:
 PDF_PATH = Path("wild_cv.pdf")
 JSON_PATH = Path("cv.json")
 
-# Map months and academic seasons to numeric values (1-12) for chronological sorting
 MONTH_MAP = {
     "january": 1, "jan": 1,
     "winter": 2,
@@ -43,37 +44,24 @@ MONTH_MAP = {
 
 
 def academic_date_key(date_str: str, original_index: int = 0) -> tuple:
-    """
-    Converts academic date strings ('Forthcoming', 'December 2026', 'Spring 2024', '2026')
-    into a sortable tuple (year, month, -original_index) so sorting with reverse=True
-    always places Forthcoming & Newest at the top, preserving CV top-to-bottom order on ties.
-    """
     if not date_str:
         return (0, 0, -original_index)
-
     lower = date_str.lower()
     if "forthcoming" in lower or "in progress" in lower or "present" in lower:
         return (9999, 12, -original_index)
-
-    # Extract 4-digit year
     year_match = re.search(r"\b(19\d{2}|20\d{2})\b", lower)
     year = int(year_match.group(1)) if year_match else 0
-
-    # Extract month or season
     month = 0
     for token, val in MONTH_MAP.items():
         if re.search(rf"\b{token}\b", lower):
             month = val
             break
-
     return (year, month, -original_index)
 
 
 def extract_date_from_text(text: str) -> str:
-    """Extracts a date like 'May 2026', 'Spring 2024', 'April 2023', or '2026' from a CV entry."""
     if "forthcoming" in text.lower():
         return "Forthcoming"
-    # Match (Month/Season YYYY)
     m = re.search(
         r"\b(January|February|March|April|May|June|July|August|September|October|November|December|Spring|Summer|Fall|Autumn|Winter)\s+(20\d{2})\b",
         text,
@@ -81,20 +69,17 @@ def extract_date_from_text(text: str) -> str:
     )
     if m:
         return f"{m.group(1)} {m.group(2)}"
-    # Match standalone year
     y = re.search(r"\b(20\d{2})\b", text)
     return y.group(1) if y else ""
 
 
 def strip_html(text: str) -> str:
-    """Removes HTML tags and normalizes whitespace/quotes for fuzzy comparison."""
     text = re.sub(r"<[^>]+>", "", text)
     text = text.replace("“", '"').replace("”", '"').replace("’", "'")
     return re.sub(r"\s+", " ", text).strip().lower()
 
 
 def is_same_entry(pdf_block: str, json_text: str, threshold: float = 0.65) -> bool:
-    """Checks if a raw PDF entry matches an existing JSON entry."""
     a = strip_html(pdf_block)
     b = strip_html(json_text)
     if not a or not b:
@@ -105,7 +90,6 @@ def is_same_entry(pdf_block: str, json_text: str, threshold: float = 0.65) -> bo
 
 
 def extract_pdf_sections(pdf_path: Path) -> dict:
-    """Extracts text from wild_cv.pdf and splits it by major uppercase CV headings."""
     reader = PdfReader(str(pdf_path))
     full_text = "\n".join(page.extract_text() or "" for page in reader.pages)
 
@@ -134,10 +118,6 @@ def extract_pdf_sections(pdf_path: Path) -> dict:
 
 
 def split_blocks(section_text: str) -> list:
-    """
-    Splits a CV section into individual entries.
-    Handles both double-newline separated paragraphs and single-newline blocks.
-    """
     lines = [line.strip() for line in section_text.splitlines()]
     blocks = []
     current = []
@@ -148,8 +128,6 @@ def split_blocks(section_text: str) -> list:
                 blocks.append(" ".join(current))
                 current = []
         else:
-            # Start a new block if a line starts with an opening quote (e.g. Presentations)
-            # or 'Review of ' or 'Wild, Chayne' when current already looks complete
             if current and (
                 line.startswith(('"', "“", "Review of ", "Wild, Chayne"))
                 and current[-1].endswith((".", ")", '"', "”"))
@@ -164,12 +142,43 @@ def split_blocks(section_text: str) -> list:
     return blocks
 
 
+def sync_research_interests(ri_text: str, data: dict):
+    """Parses 'Title: Description' blocks under RESEARCH INTERESTS and updates cv.json."""
+    lines = [line.strip() for line in ri_text.splitlines() if line.strip()]
+    blocks = []
+    current = []
+
+    for line in lines:
+        # A new Research Interest starts with 'Heading: Description' (colon before any period)
+        if re.match(r"^[^.]{3,80}:\s+\S", line):
+            if current:
+                blocks.append(" ".join(current))
+            current = [line]
+        else:
+            current.append(line)
+    if current:
+        blocks.append(" ".join(current))
+
+    new_interests = []
+    for block in blocks:
+        if ":" in block:
+            title, desc = block.split(":", 1)
+            new_interests.append({
+                "title": title.strip(),
+                "description": desc.strip()
+            })
+
+    if new_interests and new_interests != data.get("researchInterests"):
+        print("\n[Research Interests] Updated from CV:")
+        for item in new_interests:
+            print(f"  • {item['title']}: {item['description'][:60]}...")
+        data["researchInterests"] = new_interests
+
+
 def sync_education(edu_text: str, data: dict) -> list:
-    """Checks for updated Target Defense date or Dissertation title in EDUCATION."""
     new_news_suggestions = []
     phd = data["education"][0]
 
-    # 1. Check Target Defense Date
     def_match = re.search(r"\(Target Defense:\s*([^)]+)\)", edu_text, re.IGNORECASE)
     if def_match:
         new_def_date = def_match.group(1).strip()
@@ -181,7 +190,6 @@ def sync_education(edu_text: str, data: dict) -> list:
                 (new_def_date, f"Target defense for Ph.D. dissertation, <em>{phd['thesisTitle']}</em>.")
             )
 
-    # 2. Check Dissertation Title
     diss_match = re.search(r"Dissertation:\s*(.+?)(?=\n|Committee:)", edu_text, re.DOTALL)
     if diss_match:
         new_title = re.sub(r"\s+", " ", diss_match.group(1)).strip()
@@ -193,7 +201,6 @@ def sync_education(edu_text: str, data: dict) -> list:
 
 
 def sync_publications(pub_text: str, data: dict) -> list:
-    """Detects new publications in RESEARCH & PUBLICATIONS and sorts newest-to-oldest."""
     blocks = split_blocks(pub_text)
     existing_pubs = data.get("publications", [])
     updated_pubs = []
@@ -215,7 +222,6 @@ def sync_publications(pub_text: str, data: dict) -> list:
             default_date = extract_date_from_text(block) or "2026"
             pub_year = input(f"  Publication Date/Year [{default_date}]: ").strip() or default_date
 
-            # Check if a URL is already in the PDF text
             url_match = re.search(r"(https?://\S+)", block)
             default_url = url_match.group(1).rstrip(".") if url_match else ""
             url = input(f"  External Link URL [{default_url or 'Enter to skip'}]: ").strip() or default_url
@@ -239,14 +245,12 @@ def sync_publications(pub_text: str, data: dict) -> list:
             updated_pubs.append(new_entry)
             new_news_suggestions.append((pub_year, f"New {pub_type.lower()} published: {clean_title}"))
 
-    # Keep any existing publications that weren't matched just in case, unless user wants strict removal
     for pub in existing_pubs:
         if pub not in updated_pubs:
             keep = input(f"\n⚠️ Existing publication not found in PDF: '{strip_html(pub['titleHtml'])[:60]}...'\n  Keep it on the website anyway? [Y/n]: ").strip().lower()
             if keep != "n":
                 updated_pubs.append(pub)
 
-    # Sort Newest / Forthcoming -> Oldest
     updated_pubs.sort(
         key=lambda item: academic_date_key(item.get("year", ""), updated_pubs.index(item)),
         reverse=True,
@@ -255,8 +259,32 @@ def sync_publications(pub_text: str, data: dict) -> list:
     return new_news_suggestions
 
 
+def sync_manuscripts(ms_text: str, data: dict):
+    blocks = split_blocks(ms_text)
+    existing_ms = data.get("manuscripts", [])
+    updated_ms = []
+
+    for block in blocks:
+        matched = None
+        for ms in existing_ms:
+            combined_json = f"{ms.get('title', '')} {ms.get('venueHtml', '')} {ms.get('abstract', '')}"
+            if is_same_entry(block, combined_json, threshold=0.55):
+                matched = ms
+                break
+        if matched:
+            updated_ms.append(matched)
+        else:
+            print(f"\n✨ [New Manuscript in Prep Detected in CV]:\n  {block}")
+            m = re.match(r'^([“"][^”"]+[”"])\s*(.*)$', block)
+            title = m.group(1) if m else block
+            rest = m.group(2) if m else ""
+            updated_ms.append({"title": title, "venueHtml": rest})
+
+    if updated_ms:
+        data["manuscripts"] = updated_ms
+
+
 def sync_presentations(pres_text: str, data: dict) -> list:
-    """Detects new conference presentations and sorts newest-to-oldest."""
     blocks = split_blocks(pres_text)
     existing_pres = data.get("presentations", [])
     updated_pres = []
@@ -274,7 +302,6 @@ def sync_presentations(pres_text: str, data: dict) -> list:
             updated_pres.append(matched)
         else:
             print(f"\n✨ [New Conference Presentation Detected in CV]:\n  {block}")
-            # Split quoted title from venue details
             m = re.match(r'^([“"][^”"]+[”"])\s*(.*)$', block)
             if m:
                 title, details = m.group(1), m.group(2)
@@ -286,7 +313,6 @@ def sync_presentations(pres_text: str, data: dict) -> list:
             pres_date = extract_date_from_text(block) or "Upcoming"
             new_news_suggestions.append((pres_date, f"Presenting {title} at {details}"))
 
-    # Sort Newest / Forthcoming -> Oldest
     updated_pres.sort(
         key=lambda item: academic_date_key(
             extract_date_from_text(item.get("detailsHtml", "")), updated_pres.index(item)
@@ -298,14 +324,12 @@ def sync_presentations(pres_text: str, data: dict) -> list:
 
 
 def review_news_interactively(data: dict, suggestions: list):
-    """Prompts the user to verify, edit, add, or remove 'Recent & Upcoming' (news) items."""
     print("\n" + "=" * 65)
     print(" 🔔 VERIFY 'RECENT & UPCOMING' (NEWS) SECTION")
     print("=" * 65)
 
     news_list = data.get("news", [])
 
-    # 1. Offer to add newly detected items from the CV
     for suggested_date, suggested_text in suggestions:
         print(f"\nSuggested update from CV changes:\n  [{suggested_date}] {suggested_text}")
         ans = input("  Add this to 'Recent & Upcoming'? [y/N]: ").strip().lower()
@@ -314,7 +338,6 @@ def review_news_interactively(data: dict, suggestions: list):
             custom_text = input(f"  Text [{suggested_text}]: ").strip() or suggested_text
             news_list.insert(0, {"date": custom_date, "text": custom_text})
 
-    # 2. Review current items one by one
     verified_news = []
     print("\nReviewing current 'Recent & Upcoming' items:")
     for idx, item in enumerate(news_list, start=1):
@@ -331,7 +354,6 @@ def review_news_interactively(data: dict, suggestions: list):
         else:
             verified_news.append(item)
 
-    # 3. Option to add a custom upcoming item manually
     while True:
         add_more = input("\nAdd a custom 'Recent & Upcoming' item? [y/N]: ").strip().lower()
         if add_more != "y":
@@ -341,7 +363,6 @@ def review_news_interactively(data: dict, suggestions: list):
         if n_date and n_text:
             verified_news.append({"date": n_date, "text": n_text})
 
-    # 4. Sort 'Recent & Upcoming' Newest / Forthcoming -> Oldest
     verified_news.sort(
         key=lambda item: academic_date_key(item.get("date", ""), verified_news.index(item)),
         reverse=True,
@@ -365,16 +386,21 @@ def main():
 
     suggestions = []
 
+    if "RESEARCH INTERESTS" in sections:
+        sync_research_interests(sections["RESEARCH INTERESTS"], data)
+
     if "EDUCATION" in sections:
         suggestions.extend(sync_education(sections["EDUCATION"], data))
 
     if "RESEARCH & PUBLICATIONS" in sections:
         suggestions.extend(sync_publications(sections["RESEARCH & PUBLICATIONS"], data))
 
+    if "MANUSCRIPTS IN PREPARATION" in sections:
+        sync_manuscripts(sections["MANUSCRIPTS IN PREPARATION"], data)
+
     if "CONFERENCE PRESENTATIONS" in sections:
         suggestions.extend(sync_presentations(sections["CONFERENCE PRESENTATIONS"], data))
 
-    # Interactive prompt for Recent & Upcoming
     review_news_interactively(data, suggestions)
 
     with open(JSON_PATH, "w", encoding="utf-8") as f:
@@ -385,3 +411,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+EOF
