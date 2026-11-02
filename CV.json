@@ -1,0 +1,229 @@
+{
+  "profile": {
+    "name": "Chayne Wild",
+    "title": "Ph.D. Candidate in ASPECT",
+    "institution": "Virginia Tech",
+    "photo": "profile.jpg",
+    "cvPdf": "wild_cv.pdf",
+    "emails": ["chayne@vt.edu", "chayne.wild@gmail.com"],
+    "location": "Blacksburg, VA & Moscow, ID",
+    "lead": "I am a Ph.D. Candidate in the Alliance for Social, Political, Ethical, and Cultural Thought (ASPECT) at Virginia Tech."
+  },
+  "researchInterests": [
+    {
+      "title": "Carceral Studies & Decolonial Theory",
+      "description": "Focused on the \"carceral digital turn\" and the evolution of prisoner resistance. My research utilizes the American Prison Writing Archive (APWA) to center the lived experiences and \"shadow canons\" of incarcerated intellectuals, challenging state-sanctioned narratives of technological control."
+    },
+    {
+      "title": "Critical Sociology & Social Thought",
+      "description": "Investigating the intersection of racial capitalism, surveillance, and epistemic authority. I draw on Stuart Hall, Frantz Fanon, and Karl Marx to theorize how carceral technologies—from electronic monitoring to digital communication platforms—reproduce colonial hierarchies and how these systems are contested from within."
+    }
+  ],
+  "news": [
+    {
+      "date": "December 2026",
+      "text": "Target defense for Ph.D. dissertation, <em>Love is Contraband: The Decolonial Technics of Prisoner Resistance</em>."
+    },
+    {
+      "date": "November 2026",
+      "text": "Released v1.0.0 of computational linguistic analysis software for the American Prison Writing Archive (APWA)."
+    },
+    {
+      "date": "May 2026",
+      "text": "Book review of Doran Larson's <em>Inside Knowledge</em> published in <em>ACJS Today</em> (55.3)."
+    }
+  ],
+  "education": [
+    {
+      "degree": "Ph.D. in ASPECT (Alliance for Social, Political, Ethical, and Cultural Thought)",
+      "date": "Target Defense: December 2026",
+      "institution": "Virginia Tech, Blacksburg, VA",
+      "thesisLabel": "Dissertation",
+      "thesisTitle": "Love is Contraband: The Decolonial Technics of Prisoner Resistance",
+      "committee": "Onwubiko Agozino (Chair), Sylvester Johnson (Northwestern), Max Stephenson, Robert Perdue"
+    },
+    {
+      "degree": "M.A. in Political Science",
+      "date": "2025",
+      "institution": "Colorado State University, Fort Collins, CO",
+      "thesisLabel": "Thesis",
+      "thesisTitle": "Crisis, Which Crisis? Examining the Letcher County Flood Through the Frameworks of Shock, Conjuncture, and Dislocation",
+      "committee": "Bradley Macdonald (Chair), David McIvor, Joshua Sbicca"
+    },
+    {
+      "degree": "B.S. in General Social Science, Applied Economics, Business, and Society",
+      "date": "2019",
+      "institution": "University of Oregon, Eugene, OR"
+    }
+  ],
+  "publications": [
+    {
+      "type": "Computational Software",
+      "badgeClass": "badge-software",
+      "year": "November 2026",
+      "titleHtml": "<em>Prefiguring the Carceral-Digital Turn: A Computational Linguistic Analysis of the American Prison Writing Archive (APWA)</em> (Version 1.0.0) [Computer software].",
+      "authorsHtml": "Wild, Chayne. Virginia Tech.",
+      "citation": "Wild, Chayne. 2026. Prefiguring the Carceral-Digital Turn: A Computational Linguistic Analysis of the American Prison Writing Archive (APWA) (Version 1.0.0) [Computer software]. Virginia Tech. https://github.com/chayne-wild/APWA-Scrape-and-STM",
+      "links": [
+        {
+          "label": "Code & Repository",
+          "url": "https://github.com/chayne-wild/APWA-Scrape-and-STM",
+          "icon": "fa-brands fa-github"
+        }
+      ]
+    },
+    {
+      "type": "Book Review",
+      "badgeClass": "",
+      "year": "May 2026",
+      "titleHtml": "Review of <em>Inside Knowledge: Incarcerated People on the Failures of the American Prison</em> by Doran Larson (NYU Press, 2024).",
+      "authorsHtml": "<span class=\"pub-journal\">ACJS Today</span>, 55.3 (May 2026): 24–26.",
+      "citation": "Wild, Chayne. 2026. \"Review of Inside Knowledge: Incarcerated People on the Failures of the American Prison by Doran Larson (NYU Press, 2024).\" ACJS Today, 55.3 (May 2026): 24–26.",
+      "links": [
+        {
+          "label": "Publication Link",
+          "url": "https://www.acjs.org/acjs-today-newsletter/",
+          "icon": "fa-solid fa-arrow-up-right-from-square"
+        }
+      ]
+    },
+    {
+      "type": "Book Review",
+      "badgeClass": "",
+      "year": "Spring 2024",
+      "titleHtml": "Review of <em>Plastic Matter</em> by Heather Davis (Duke University Press, 2022).",
+      "authorsHtml": "<span class=\"pub-journal\">Lateral: Journal of the Cultural Studies Association</span>, Vol. 13, No. 1 (Spring 2024).",
+      "citation": "Wild, Chayne. 2024. \"Review of Plastic Matter by Heather Davis (Duke University Press, 2022).\" Lateral: Journal of the Cultural Studies Association, Vol. 13, No. 1 (Spring 2024).",
+      "links": [
+        {
+          "label": "JSTOR Link",
+          "url": "https://www.jstor.org/stable/48826816",
+          "icon": "fa-solid fa-arrow-up-right-from-square"
+        }
+      ]
+    }
+  ],
+  "manuscripts": [
+    {
+      "title": "“Frantz Fanon’s Influence on Francesc Tosquelles and the Post-Colonial Legacy of Institutional Psychotherapy”",
+      "venueHtml": "Target: <span class=\"pub-journal\">Theory, Culture, and Society</span> (6,000–8,000 words).",
+      "abstract": "A qualitative article investigating the inverse relationship of influence between Fanon and Tosquelles. This research traces how Fanon's organic activist focus and concept of “sociogeny” fed back into the institutional psychotherapy movement."
+    },
+    {
+      "title": "“The Mythology of Rights: Democracy, Rights, and Access”",
+      "venueHtml": "Co-authored chapter (with David McIvor) for the edited collection <span class=\"pub-journal\">What Needs to Be Said About Democracy, Right Now</span> (Central European University Press, forthcoming)."
+    }
+  ],
+  "presentations": [
+    {
+      "title": "“Worlding Together from Worlds Apart: The Convergence of Ancestry, Kin, and Language in Robin Wall Kimmerer and George Jackson.”",
+      "detailsHtml": "Co-presented with Trevor Jeyaraj, <em>ASPECT Graduate Conference, Virginia Tech</em> (Spring 2024)."
+    },
+    {
+      "title": "“Challenging the Obscure Violence of Neocolonialism: An Onto-Epistemological Critique.”",
+      "detailsHtml": "<em>Western Political Science Association (WPSA), San Francisco, CA</em> (April 2023)."
+    },
+    {
+      "title": "“Toward a Sadean Phenomenology: Flesh Unfolding and the Ambiguity of Humanism in Erotic Domination.”",
+      "detailsHtml": "<em>ASPECT Graduate Conference, Virginia Tech</em> (Spring 2023)."
+    },
+    {
+      "title": "“When the Living Dead Burn: Self-Immolation as Non-Violent Protest.”",
+      "detailsHtml": "<em>ASPECT Graduate Conference, Virginia Tech</em> (Spring 2022)."
+    },
+    {
+      "title": "“Ecopopulism: Antagonism for a Better World.”",
+      "detailsHtml": "<em>American Political Science Association (APSA) Annual Meeting, Seattle, WA</em> (September 2021)."
+    }
+  ],
+  "teaching": [
+    {
+      "group": "Instructor of Record | Virginia Tech",
+      "courses": [
+        {
+          "name": "PSCI 2014: Introduction to Political Theory",
+          "date": "Summer 2022, Fall 2022, Spring 2023",
+          "bullets": [
+            "<strong>Theories of Self, Care, and Technology (Spring 2023):</strong> Redesigned the curriculum around the goal of <em>gnothi seauton</em> (\"Know Thyself\") in the post-information age. Explored the intersections of neurobiology, phenomenology, and psychoanalysis to interrogate governmentality and the impact of AI and social media.",
+            "<strong>Human Nature, Ethics, and Resistance (Fall 2022):</strong> Facilitated a traditional survey of foundational thought (Machiavelli, Plato, Hobbes) updated with a focus on direct action and the ethics of violence (Graeber, Butler, Malm).",
+            "<strong>Digital Humanities & Applied Theory (Summer 2022 – Online Asynchronous):</strong> Adapted materials into a condensed digital format. Produced an original political theory podcast with guest speakers and mentored students through creative digital humanities final projects."
+          ]
+        },
+        {
+          "name": "PSCI 1014: Introduction to US Government and Politics",
+          "date": "Fall 2021, Spring 2022",
+          "bullets": [
+            "Designed an experiential curriculum focused on institutional organizations and direct action. Rigorous, discussion-heavy seminar style combined with engaging activities.",
+            "<strong>Mock-Trial Exercise:</strong> Conducted an immersive mock-trial to apply critical legal and political theory to procedural practice.",
+            "Guided student-led democratic campaigns on campus safety and rights, overseeing FOIA requests and media outreach."
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Graduate Teaching Assistant | Virginia Tech",
+      "courses": [
+        {
+          "name": "AFST 1814: Introduction to African Studies",
+          "date": "Spring 2026",
+          "description": "Assisted with scholarly research on African policy, decolonization, and US Africom, while managing course content and digital submissions."
+        },
+        {
+          "name": "SOC 4404: Sociology of Law",
+          "date": "Spring 2025, Spring 2026",
+          "description": "Supported discussions and student \"Scholar-Activism\" initiatives of community engagement, including the Appalachian Prison Book Project."
+        }
+      ]
+    },
+    {
+      "group": "Graduate Teaching Assistant | Colorado State University",
+      "courses": [
+        {
+          "name": "POLS 131: Current World Problems",
+          "date": "Spring 2020",
+          "description": "Assisted in the delivery of a course examining contemporary global issues, focusing on international conflict, human rights, and the global economy. Held office hours and provided feedback on undergraduate essays and examinations."
+        },
+        {
+          "name": "POLS 232: International Relations",
+          "date": "Fall 2019",
+          "description": "Supported discussion-heavy instruction on the fundamental theories and actors in international politics, including the role of the state, international organizations, and non-state actors in the global system."
+        }
+      ]
+    }
+  ],
+  "researchExperience": [
+    {
+      "role": "Graduate Research Assistant | Dr. Onwubiko Agozino, Virginia Tech",
+      "date": "2023 – Present",
+      "bullets": [
+        "<strong>Africana Reading of Marx’s <em>Das Kapital</em>:</strong> Providing research and editorial support for a book project re-evaluating Marx through an Africana lens.",
+        "<strong>Stuart Hall Archive & Book Project:</strong> Contributing research and editorial support to a forthcoming volume on Stuart Hall."
+      ]
+    },
+    {
+      "role": "Graduate Research Assistant | Dr. Heidi Williams, Virginia Tech",
+      "date": "2024",
+      "description": "Investigated \"incarceration trauma\" and its socio-emotional and economic impacts on children and families within marginalized communities. This also included exploring specialized topics like \"multipartnered fertility\" in the context of parental incarceration while developing literature reviews and bibliographies on these topics."
+    },
+    {
+      "role": "Graduate Research Assistant | Straayer Center for Public Service Leadership",
+      "date": "2019 – 2021",
+      "subtitle": "Supervisor: Sam Houghteling, Colorado State University",
+      "description": "Conducted policy research and supported community outreach for public-sector leadership programs and undergraduate internship best practices."
+    }
+  ],
+  "service": {
+    "organization": "Community Change Collaborative (CCC) | Virginia Tech",
+    "items": [
+      "<strong>Treasurer (2024):</strong> Manage financial reporting and fund allocation for interdisciplinary projects.",
+      "<strong>Editor, <em>Community Change Journal (CCJ)</em> (2024):</strong> Oversee the peer-review process and coordinate internal reviews for a graduate-led journal.",
+      "<strong>Organizer, Speaker Series:</strong> Coordinated multiple events, including hosting Dr. Judah Schept (2024).",
+      "<strong>Peer Reviewer:</strong> <em>Community Change Journal (CCJ)</em> (2026)."
+    ],
+    "memberships": [
+      "American Political Science Association (APSA) – Section 27 (Critical Political Science)",
+      "American Society of Criminology (ASC)",
+      "Academy of Criminal Justice Sciences (ACJS)"
+    ]
+  }
+}
