@@ -81,14 +81,14 @@ def is_same_entry(pdf_block: str, json_text: str, threshold: float = 0.65) -> bo
     b = strip_html(json_text)
     if not a or not b:
         return False
-    if b in a or a in b:
-        return True
     return SequenceMatcher(None, a, b).ratio() >= threshold
 
 
 def extract_pdf_sections(pdf_path: Path) -> dict:
     reader = PdfReader(str(pdf_path))
-    full_text = "\n".join(page.extract_text() or "" for page in reader.pages)
+    raw_text = " ".join(page.extract_text() or "" for page in reader.pages)
+    # Collapse pypdf's mid-line word breaks into clean single spaces
+    full_text = re.sub(r"\s+", " ", raw_text)
 
     headings = [
         "EDUCATION",
@@ -102,7 +102,6 @@ def extract_pdf_sections(pdf_path: Path) -> dict:
         "MEMBERSHIPS",
     ]
 
-    # Case-sensitive split on uppercase headings (works even if pypdf glues headings to adjacent lines)
     pattern = r"(" + "|".join(re.escape(h) for h in headings) + r")"
     parts = re.split(pattern, full_text)
 
@@ -115,33 +114,28 @@ def extract_pdf_sections(pdf_path: Path) -> dict:
     return sections
 
 
-def split_blocks(section_text: str) -> list:
-    lines = [line.strip() for line in section_text.splitlines()]
-    blocks = []
-    current = []
+def split_publications(pub_text: str) -> list:
+    """Splits flattened publications text into individual entries."""
+    flat = re.sub(r"\s+", " ", pub_text).strip()
+    # Break after any URL
+    flat = re.sub(r"(https?://\S+)\s+", r"\1\n\n", flat)
+    # Break after a period when followed by 'Wild, Chayne', 'Review of', 'Last, First. YYYY', or a quote
+    flat = re.sub(
+        r'(?<=\.)\s+(?=(?:Wild,\s*Chayne|Review\s+of\b|[A-Z][a-z]+,\s+[A-Z][a-z]+\.\s+(?:19|20)\d{2}|[“"]))',
+        "\n\n",
+        flat,
+    )
+    return [b.strip() for b in flat.split("\n\n") if b.strip()]
 
-    for line in lines:
-        if not line:
-            if current:
-                blocks.append(" ".join(current))
-                current = []
-        else:
-            if current and (
-                line.startswith(('"', "“", "Review of ", "Wild, Chayne"))
-                and current[-1].endswith((".", ")", '"', "”"))
-            ):
-                blocks.append(" ".join(current))
-                current = [line]
-            else:
-                current.append(line)
 
-    if current:
-        blocks.append(" ".join(current))
-    return blocks
+def split_quoted_entries(section_text: str) -> list:
+    """Splits Presentations or Manuscripts that begin with an opening quotation mark."""
+    flat = re.sub(r"\s+", " ", section_text).strip()
+    parts = re.split(r'(?<=\.)\s+(?=[“"])', flat)
+    return [p.strip() for p in parts if p.strip()]
 
 
 def sync_research_interests(ri_text: str, data: dict):
-    """Splits 'Title 1: Desc 1. Title 2: Desc 2.' cleanly by colons and sentence boundaries."""
     flat_text = re.sub(r"\s+", " ", ri_text).strip()
     if ":" not in flat_text:
         return
@@ -179,30 +173,37 @@ def sync_research_interests(ri_text: str, data: dict):
 def sync_education(edu_text: str, data: dict) -> list:
     new_news_suggestions = []
     phd = data["education"][0]
+    flat_edu = re.sub(r"\s+", " ", edu_text).strip()
 
-    def_match = re.search(r"\(Target Defense:\s*([^)]+)\)", edu_text, re.IGNORECASE)
+    # Check Dissertation Title up to 'Committee:'
+    diss_match = re.search(r"Dissertation:\s*(.+?)\s*Committee:", flat_edu)
+    if diss_match:
+        new_title = diss_match.group(1).strip()
+        if phd.get("thesisTitle") != new_title:
+            print(f"\n✨ [Education] Updated Dissertation Title:\n  Old: {phd.get('thesisTitle')}\n  New: {new_title}")
+            phd["thesisTitle"] = new_title
+
+    # Check Target Defense Date
+    def_match = re.search(r"\(Target Defense:\s*([^)]+)\)", flat_edu, re.IGNORECASE)
     if def_match:
         new_def_date = def_match.group(1).strip()
         expected_str = f"Target Defense: {new_def_date}"
         if phd.get("date") != expected_str:
-            print(f"\n✨ [Education] Updated Ph.D. Target Defense: '{phd.get('date')}' -> '{expected_str}'")
-            phd["date"] = expected_str
-            new_news_suggestions.append(
-                (new_def_date, f"Target defense for Ph.D. dissertation, <em>{phd['thesisTitle']}</em>.")
-            )
-
-    diss_match = re.search(r"Dissertation:\s*(.+?)(?=\n|Committee:)", edu_text, re.DOTALL)
-    if diss_match:
-        new_title = re.sub(r"\s+", " ", diss_match.group(1)).strip()
-        if phd.get("thesisTitle") != new_title:
-            print(f"\n✨ [Education] Updated Dissertation Title:\n  Old: {phd.get('thesisTitle')}\n  New: {new_title}")
-            phd["thesisTitle"] = new_title
+            ans = input(
+                f"\n[Education] PDF says '{expected_str}', while cv.json has '{phd.get('date')}'.\n"
+                f"  Update cv.json to '{expected_str}'? [y/N]: "
+            ).strip().lower()
+            if ans == "y":
+                phd["date"] = expected_str
+                new_news_suggestions.append(
+                    (new_def_date, f"Target defense for Ph.D. dissertation, <em>{phd['thesisTitle']}</em>.")
+                )
 
     return new_news_suggestions
 
 
 def sync_publications(pub_text: str, data: dict) -> list:
-    blocks = split_blocks(pub_text)
+    blocks = split_publications(pub_text)
     existing_pubs = data.get("publications", [])
     updated_pubs = []
     new_news_suggestions = []
@@ -211,7 +212,8 @@ def sync_publications(pub_text: str, data: dict) -> list:
         matched = None
         for pub in existing_pubs:
             combined_json = f"{pub.get('titleHtml', '')} {pub.get('authorsHtml', '')}"
-            if is_same_entry(block, combined_json):
+            citation_json = pub.get("citation", "")
+            if is_same_entry(block, combined_json) or is_same_entry(block, citation_json):
                 matched = pub
                 break
 
@@ -257,7 +259,7 @@ def sync_publications(pub_text: str, data: dict) -> list:
 
 
 def sync_manuscripts(ms_text: str, data: dict):
-    blocks = split_blocks(ms_text)
+    blocks = split_quoted_entries(ms_text)
     existing_ms = data.get("manuscripts", [])
     updated_ms = []
 
@@ -282,7 +284,7 @@ def sync_manuscripts(ms_text: str, data: dict):
 
 
 def sync_presentations(pres_text: str, data: dict) -> list:
-    blocks = split_blocks(pres_text)
+    blocks = split_quoted_entries(pres_text)
     existing_pres = data.get("presentations", [])
     updated_pres = []
     new_news_suggestions = []
@@ -360,7 +362,6 @@ def review_news_interactively(data: dict, suggestions: list):
 
 
 def main():
-    # Automatically remove the old git pre-commit hook so it never prompts twice
     Path(".git/hooks/pre-commit").unlink(missing_ok=True)
 
     if not PDF_PATH.exists():
