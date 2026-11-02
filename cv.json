@@ -24,12 +24,12 @@
   ],
   "news": [
     {
-      "date": "December 2026",
-      "text": "Target defense for Ph.D. dissertation, <em>Love is Contraband: The Decolonial Technics of Prisoner Resistance</em>."
-    },
-    {
       "date": "November 2026",
       "text": "Released v1.0.0 of computational linguistic analysis software for the American Prison Writing Archive (APWA)."
+    },
+    {
+      "date": "May 2026",
+      "text": "Target defense for Ph.D. dissertation, <em>Love is Contraband: The Decolonial Technics of Prisoner Resistance</em>."
     },
     {
       "date": "May 2026",
@@ -39,7 +39,7 @@
   "education": [
     {
       "degree": "Ph.D. in ASPECT (Alliance for Social, Political, Ethical, and Cultural Thought)",
-      "date": "Target Defense: December 2026",
+      "date": "Target Defense: May 2026",
       "institution": "Virginia Tech, Blacksburg, VA",
       "thesisLabel": "Dissertation",
       "thesisTitle": "Love is Contraband: The Decolonial Technics of Prisoner Resistance",
@@ -60,6 +60,15 @@
     }
   ],
   "publications": [
+    {
+      "type": "Peer-Reviewed Article",
+      "badgeClass": "",
+      "year": "2026",
+      "titleHtml": "Wild, Chayne. 2026. This is a test.",
+      "authorsHtml": "Wild, Chayne.",
+      "citation": "Wild, Chayne. 2026. This is a test.",
+      "links": []
+    },
     {
       "type": "Computational Software",
       "badgeClass": "badge-software",
