@@ -1,4 +1,3 @@
-cat << 'EOF' > ~/chayne-wild.github.io/sync_cv.py
 #!/usr/bin/env python3
 import json
 import re
@@ -387,4 +386,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-EOF
