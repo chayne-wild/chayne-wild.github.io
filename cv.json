@@ -29,6 +29,10 @@
     },
     {
       "date": "November 2026",
+      "text": "Released v1.0.0 of distant viewing software for the Prison Creative Arts Project (PCAP)."
+    },
+    {
+      "date": "November 2026",
       "text": "Released v1.0.0 of computational linguistic analysis software for the American Prison Writing Archive (APWA)."
     },
     {
@@ -64,8 +68,8 @@
       "type": "Computational Software",
       "badgeClass": "badge-software",
       "year": "2026",
-      "titleHtml": "Wild, Chayne. 2026. Counter-Visuality in the Carceral Archive: Distant Viewing and Multimodal Interrogation of the Prison Creative Arts Project (PCAP) (Version 1.0.0) [Computer software]. Virginia Tech.",
-      "authorsHtml": "Wild, Chayne.",
+      "titleHtml": "Wild, Chayne. 2026. Counter-Visuality in the Carceral Archive: Distant Viewing and Multimodal Interrogation of the Prison Creative Arts Project (PCAP) (Version 1.0.0) [Computer software].",
+      "authorsHtml": "Wild, Chayne. Virginia Tech",
       "citation": "Wild, Chayne. 2026. Counter-Visuality in the Carceral Archive: Distant Viewing and Multimodal Interrogation of the Prison Creative Arts Project (PCAP) (Version 1.0.0) [Computer software]. Virginia Tech. https://github.com/chayne-wild/PCAP-CLIP-and-LLaVA",
       "links": [
         {
